@@ -1,0 +1,32 @@
+Testing/Coding order of operations
+1) so how close is p5.js to processing? - write test program/read documents to explore
+2) create function percent() that reads an svg icon (black circular dot w/ white image) and provides equivalent grayscale value 0:255 as percentage
+3) function percentAdj() adapt above to output icon with finer gradations(?) say 90-86% as variation on 90, 85-81, etc.
+  ideally the idea is that I can feed it 10-20 icons from any 'set' (wreaths, ornaments, flakes or a mix) 
+  and it could generate the additional variations as necessary.
+4) function imagePick() grab the camera-control js script and use it to take snapshots... should be simple, simple.
+5) function renderConvert()..... here we get in p5.js raster reading (new territory).... basically want to work in 8x8 px grid 
+  (add pull bar later to scale up icons), average the lightness values extracted from the image's original grid (subfunction)...
+  user selects which type of icons to color with and ....use the lightness values to grab corresponding icon 
+  (or create relative icon from percentAdj()) and load into new composite svg.
+6) make sure to create save as svg button, save as pdf button, save as jpg.... custom text for folks to personalize their greeting.  
+
+so things to code:
+  test ();
+  percent();
+  percentAdj();
+  imagePick();
+  renderConvertSimp(); without image pick (our demo card)
+  renderConvert(); with image pick (the card tool)
+    options and variations of this may be necessary
+  outputs();
+  
+Front page of card should show our photo/it's svg conversion with different options... second tab should have the do-your-own version.
+
+things to draw (svg icons!): make sure to do this after generating percent()... just to get general order of operations down.
+  ornaments (9)... 0 is empty, 100 is all black, 90 is completely filled ornament
+  wreaths (9).... what can be stuck in a wreath...festive animal overlays!
+  snow (9)... easy...
+  isotype classic (9)...snow/winter sports variations
+  other?
+  

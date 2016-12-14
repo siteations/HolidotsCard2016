@@ -8,6 +8,7 @@ var grid;//placeholder for user grid selection
 var dens;
 
 function preload() { // this will actually need to be the feeder from camera...
+  //take_snapshot();
   img = loadImage("img/test.jpg");
   //icons as array of objects, 0-100, with each as []{ wreath:'img/linkhere.svg', ornament:'img/linkhere.svg', etc.}
   //perhaps automate that preloaded object in a different area and simply load all here;
@@ -19,10 +20,12 @@ function setup() {
   	height=img.height;
 	w2=width*dens;
 	wCenter=(displayWidth-width)/2;
-	console.log(width, height);
+
 
 	var cnt=createCanvas(width, height); // the canvas
-  		cnt.position(wCenter, 100);
+  		cnt.position(wCenter+120, 140);
+  		cnt.parent('results');
+  		cnt.id('pixelCanvas');
 
   	pixelDensity(dens);
   	noLoop(); // double density for better icons intensity, camera grabs
@@ -31,6 +34,7 @@ function setup() {
 }
 
 function draw() {
+if (img){
 	image(img, 0, 0); 
   	loadPixels(); // could use this then restructure, but makes more sense to use get() and structure averages
   	var pixNest=[];
@@ -124,14 +128,48 @@ function draw() {
 		});
 
 
-
+};
 
 }
 
 
 function mousePressed() {
-   loop();
+	//resizeCanvas(width, height);	
+   	//take_snapshot();
+   	//if (a){img= loadImage("img/test.jpg");};
+   console.log(img);
+   //loop();
+   //draw();
  }
+
+
+function take_snapshot() {
+	// take snapshot and get image data
+	resizeCanvas(width, height);
+	Webcam.snap(function(data_uri) {
+		// display results in page
+		//document.getElementById('results').innerHTML = 
+			//'<img id="camImg" src=" "/>';
+			//'<img id="camImg" src="'+data_uri+'"/>';
+		img = loadImage(data_uri);
+	} );
+	draw();
+
+	//img = loadImage(data_uri);
+	//console.log(document.getElementById('camImg').src);
+}
+
+function take_existing() {
+	// take snapshot and get image data
+	resizeCanvas(width, height);
+	img = loadImage("img/test.jpg");
+	draw();
+
+	//img = loadImage(data_uri);
+	//console.log(document.getElementById('camImg').src);
+}
+
+
 
  function mouseReleased() {
   noLoop();

@@ -1,11 +1,6 @@
 <html>
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta property="og:url" content="https://www.siteations.com/holidots2016" />
-	<meta property="og:title" content="Happy Holidots 2016" />
-	<meta property="og:description" content="Make your own seasonal greetings" />
-<meta property="og:image"  content="https://www.siteations.com/holidots2016" />
-
   <script language="javascript" type="text/javascript" src="libraries/p5.js"></script>
   <script language="javascript" type="text/javascript" src="libraries/d3.js"></script>
    <script language="javascript" type="text/javascript" src="libraries/jquery-3.0.0.js"></script>
@@ -55,31 +50,20 @@
 
   label { padding:0px;}
 
-  #my_camera { background-color: lightgrey; margin:10 0 0 0;}
-  #title{ overflow: hidden;}
-  .main { overflow: hidden ; margin:0 0 20 0;}
+  #my_camera { background-color: lightgrey;}
+  #title, #main { overflow: hidden;}
   #results { float:right; margin:40px; padding:20px;}
 	</style>
 </head>
 
 <body>
-	<div id="fb-root"></div>
-		<script>(function(d, s, id) {
-		  var js, fjs = d.getElementsByTagName(s)[0];
-		  if (d.getElementById(id)) return;
-		  js = d.createElement(s); js.id = id;
-		  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.8";
-		  fjs.parentNode.insertBefore(js, fjs);
-		}(document, 'script', 'facebook-jssdk'));</script>
-
-
 	<div id="title">
 		<h1>Have a <span style="text-decoration-line: underline;">Happy Holidot Greeting</span> Generator <span style="font-size:18pt"> for festive, digital well-wishing... </span></h1>
 		<h3 style="margin: 0 0 40 140">Happy Holidays from Ian & Meg
 		<span style="font-size:8pt; font-family: 'Josefin Sans', sans-serif;">[pardon the beta bugginess; no it's not responsive]</span> </h3>
 	</div>
 
-	<div class="main">
+	<div id="main">
 	<div class="optionButtons">
 		
 		<h4>1) pick festive icons</h4>
@@ -97,10 +81,6 @@
 	</div>
 
 	<h4>2) grab a holiday snapshot</h4>
-	<p style:"font-size:8pt"> use pre-loaded images (10 hallmark-esque views)</p>
-		<input style="font-family: 'Unica One'; font-size:14pt" type=button id="winter" name=" " value="Random Wintery Scene"><span id="random-value" style="font-family: 'Unica One';"></span><br><br>
-
-	<p style:"font-size:8pt"> or capture new images (adjust pixels to reset focus)</p>
 	
 	<div id="my_camera"></div>
 
@@ -121,10 +101,12 @@
 	</div>
 	<div class="optionButtons">
 	<p style="font-size:8pt">Do You Have Your Ugly Holiday Jumper Ready?</p>
+	<h5>Click to Load New Image [resets grid]</h5>	
 	<form style:"font-size:8pt">
-		<input style="font-family: 'Unica One'; font-size:14pt" type=button value="Take Snapshot" id="camera"><br><br>
-		
-		<p style:"font-size:8pt"> or load your own image (800x600px, no smaller)</p>
+		<input style="font-family: 'Unica One'; font-size:14pt" type=button value="Take Snapshot" id="camera">
+		<p style:"font-size:8pt"> or use existing images (10 hallmark-esque views)</p>
+		<input style="font-family: 'Unica One'; font-size:14pt" type=button id="winter" name=" " value="Random Wintery Scene"><span id="random-value"></span>
+		<p style:"font-size:8pt"> or use your own image (800x600px please)</p>
 		<input type="file" style="font-family: 'Unica One'; font-size:14pt" id="own">
 	</form>
 	<br>
@@ -132,7 +114,7 @@
 </div>
 <div id="results"></div>
 </div>
-<div class="main" >
+<div id="options2" >
 	<span id="adtRad" style="float: left; width: 550 px;">	<h4>3) adjust pixels to preview (hi-low res)</h4>
 
 <p>	
@@ -145,18 +127,16 @@
 	<span id="messageOpt" style="float: right; width: 400 px;">	<h4>5) save and send (tweet, share, embed)</h4>	
 
 	<form style:"font-size:8pt">
-		<input style="font-family: 'Unica One'; font-size:14pt" type=button value="Save JPG" id="jpg"> <input style="font-family: 'Unica One'; font-size:14pt" type=button value="Save SVG" id="svg"> <input style="font-family: 'Unica One'; font-size:14pt" type=button value="Copy PNG" id="copy2">
-		<p style:"font-size:8pt"> for small embeds (jpg), rescaling (svg) or pasting (png)</p>
+		<input style="font-family: 'Unica One'; font-size:14pt" type=button value="Save JPG" id="camera"> <input style="font-family: 'Unica One'; font-size:14pt" type=button value="Save SVG" id="camera">
+		<p style:"font-size:8pt"> for small embeds (jpg), vector/rescaling (svg) or ...</p>
 		
 	</form>
-	<a href="https://twitter.com/share" class="twitter-share-button" data-url="https://www.siteations.com/holidots2016" data-via="siteations" data-hashtags="holidotsGreetings" data-related="" data-show-count="false">Tweet</a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
-
-	<div class="fb-share-button" data-href="https://www.siteations.com/holidots2016" data-layout="button" data-size="small" data-mobile-iframe="true" ><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.siteations.com%2Fholidots2016&amp;src=sdkpreparse">Share</a></div>
+	<a href="https://twitter.com/share" class="twitter-share-button" data-url="https://www.siteations.com/testing" data-via="siteations" data-hashtags="holidotsGreetings" data-related="" data-show-count="false">Tweet</a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 	</span>
 	<span id="saveOpt" style="float: right; width: 400px;"><h4>4) add your seasons greeting</h4>	
 	<form style:"font-size:8pt">
-		<input style="font-family: 'Unica One'; font-size:14pt" type=button value="Take Snapshot" id="message">
+		<input style="font-family: 'Unica One'; font-size:14pt" type=button value="Take Snapshot" id="camera">
 		<p style:"font-size:8pt"> or use existing images (10 hallmark-esque views)</p>
 		
 	</form></span>

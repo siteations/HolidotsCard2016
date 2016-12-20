@@ -1,0 +1,192 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  
+
+  <script language="javascript" type="text/javascript" src="libraries/p5.js"></script>
+  <script language="javascript" type="text/javascript" src="libraries/d3.js"></script>
+   <script language="javascript" type="text/javascript" src="libraries/jquery-3.0.0.js"></script>
+  <!-- uncomment lines below to include extra p5 libraries -->
+  <script language="javascript" src="libraries/p5.dom.js"></script>
+  <!--<script language="javascript" src="libraries/p5.sound.js"></script>-->
+  <script language="javascript" type="text/javascript" src="pixelcard-generator.js"></script>
+
+  	<!-- First, include the Webcam.js JavaScript Library -->
+	<script type="text/javascript" src="libraries/webcam.js"></script>
+
+	<script type="text/javascript" src="libraries/gifshot.js"></script>
+	
+	<!-- Configure a few settings and attach camera -->
+
+  <!-- this line removes any default padding and style. you might only need one of these values set. -->
+  <link href="https://fonts.googleapis.com/css?family=Josefin+Sans:300|Unica+One" rel="stylesheet"> 
+
+  <style> 
+
+  body {padding: 20 40 20 40 ; margin: 0;} 
+
+  h1 { font-family: 'Unica One', cursive; font-size:34pt; font-weight: bold; margin:14 0 4 0 }
+
+  h2 { font-family: 'Unica One', cursive; font-size:24pt; }
+
+  h3, h5, form { font-family: 'Unica One', cursive; margin:10 0 10 0 ;}
+
+  h4 {text-decoration-line: underline; font-family: 'Unica One', cursive; margin:14 0 6 0 ;}
+  .hl{color:red; }
+
+  p,ul { font-family: 'Josefin Sans', sans-serif; margin:8 0 4 0 ;}
+
+  .bm { font-family: 'Unica One'; font-size:12pt;
+
+  }
+
+  .grayscale { -webkit-filter: grayscale(1); filter: grayscale(1); }
+
+  .view { width:300px; height:150px; overflow:hidden;}
+
+  .bmin{ font-family: 'Unica One'; font-size:10pt;
+
+  }
+
+  label { padding:0px;}
+  input { margin:4 0 0 10;}
+
+  #my_camera, #my_preview { background-color: lightgrey;}
+  #title{ overflow: hidden;}
+  #optionButtons{ overflow: hidden;}
+  .under {text-decoration-line: underline}
+  .main { overflow: hidden ; margin:0 0 20 40;}
+  .spacer { border-bottom-style: solid; border-top-style: dotted; border-width:1px; padding:10 0 10 0; overflow: hidden}
+  #results { overflow: hidden; text-align: center; margin:20 0 20 0;}
+	</style>
+</head>
+
+<body>
+
+	<div id="title">
+		<h1>Wish others a <span d="greeting" class='hl' style="text-decoration-line: underline;">Happy Holidot</span> <span style="font-size:18pt"> with your festive family portraits & winter imagery... </span></h1>
+		<h3 id="wishes" style="margin: 0 0 20 280">Save & Share Stills and Gifs
+		<span style="font-size:12pt; font-family: 'Josefin Sans', sans-serif;">[optimized for desktop/labtop display]</span> </h3>
+	</div>
+
+	<div class="optionButtons" style="height:225px">
+		<span style="float:left; width:25%;">
+			<h4 class='hl'>1) pick festive icons</h4>
+			<p>same options as in opening animation<p>
+			<form> 
+				<input type="radio" name="Opt" value="snow" id="snowOpt" onclick="radioClicked();"> snowflakes, <br>
+				<input type="radio" name="Opt" value="ornaments" id="ornOpt" onclick="radioClicked();"> ornaments, <br>
+				<input type="radio" name="Opt" value="winter" id="winterOpt" onclick="radioClicked();"> winter accessories, <br>
+				<input type="radio" name="Opt" value="treats" id="ckOpt" onclick="radioClicked();"> holiday treats, <br>
+				<input type="radio" name="Opt" value="mixed" id="mixOpt" onclick="radioClicked();" checked> or mixed icons.
+			</form>
+		</span>
+		<span style="float:left; width:25%;">
+			<h4 class='hl'>2) smile for a holiday snapshot </h4>
+				<div id="my_camera" style="margin:4 0 0 10;"></div>
+					<script language="JavaScript">
+						Webcam.set({
+							width: 200,
+							height: 150,
+							dest_width: 1200,
+							dest_height: 900,
+							image_format: 'jpeg',
+							jpeg_quality: 100
+							//fli_horiz: ????
+						});
+						
+						Webcam.attach('#my_camera');
+					</script>
+			<p>Have Your Ugly Holiday Jumper On?</p>
+		</span>
+		<span style="float:left; width:25%;">
+			<h3>. . .</h3>
+			<p>use candid captures / stock views / uploads:</p>
+			
+			<form style:"font-size:8pt">
+				<input class="bm" type=button value="Take Snapshot" id="camera" onclick="take_snapshot();"><br>
+				<input class="bm" type=button id="winter" name=" " value="Random Scenery" onclick="take_winter();"><span id="random-value" style="font-family: 'Unica One';"></span><br>
+				<input type="file" value="upload images" class="bm" id="own" onchange="take_upload(this.files[0]);">
+			</form>
+			<p> uploads (1200x600 min)</p>
+		</span>
+
+		<span id="previews" style="float: left; width: 25%;">	
+			<h4 class='hl'>3) preview your still image</h4>
+			<div id="my_preview" style="margin:4 0 0 10;" class="view"></div>
+			<p> Happy? Proceed. If not, try again.</p>	
+		</span>
+		
+	<!--	<span id="saveOpt" style="float: left; width: 25%;">	
+			<h4>3) save and send (share, embed, spam)</h4>
+			<p> for embeds (jpg), copies (png), or animation (gif)</p><br>	
+
+				<form style:"font-size:8pt">
+					<input style="font-family: 'Unica One'; font-size:14pt" type=button value="Save JPG" id="jpg" onclick="saveJPG()"><br>
+					<a href="#hideMe"><input style="font-family: 'Unica One'; font-size:14pt" type=button value="Copy PNG" id="copy2"></a><br>
+					<a href="#gifPlaced"><input style="font-family: 'Unica One'; font-size:14pt" type=button value="Save GIF" id="gif" onclick="gifMake();"></a><br>				
+				</form>
+				<p> save jpg/png during any pause, gif at end</p>
+		</span>-->
+
+	</div>
+
+
+	<div class="spacer">
+
+		<span style="float:left; width: 25%; text-align:left;">
+			<h4 class='hl'>4) load/reset and run options </h4>
+			<form> 
+				<input class="bm" type=button id="loader" name=" " value="Load (1,2,3)">
+			</form>	
+			<p> Animation just below. Gif appears at bottom.</p>
+		</span>
+
+		<span style="float:left; width: 25%; text-align:left;">
+			<h4>Opt. 1) pause animation </h4>
+			<form> 
+				<input class="bmin" type=button id="pause" name=" " value="Play or Pause Loop">
+			</form>
+			<p>Pause may lag, beta bugs.</p>	
+
+		</span>
+
+		<span style="float:left; width: 25%; ">
+			<h4>Opt. 2) save jpg or png frames </h4>
+			<form>
+					<input class="bmin" type=button value="Save JPG" id="jpg" onclick="saveJPG()">
+					<input class="bmin" type=button value="Save PNG" id="jpg" onclick="savePNG()">
+			</form>
+			<p>Pause animation to contol frame saved.</p>	
+
+		</span>
+
+		<span style="float:left; width: 25%;">
+			<h4 class='hl'>5) save gif (~30 sec render)</h4>
+			<form>
+			<input class="bm" type=button value="Make GIF" id="gif" onclick="gifMake();">
+		</form><p>GifShot.js may throw error, hit 'continue'.<p>
+		</span>
+	</div>
+
+	<div id="results"></div>
+
+	<div class="hideMe"></div>
+
+	<div class="spacer">
+			<h3 id='change'>your gif will appear below when rendered...</h3>
+			<p>Happy? Right-click and save or reload options to make a new version.</p>
+			<p>Gif condensed to 900x450 pixels, 10 fps for crisper images.<br>
+			Host at <a href="http://giphy.com" target=blank>http://giphy.com</a> and post away!	Upload to gmail as an inline image and send to family & friends.
+			</p>
+	</div>
+
+	<div class="gifPlaced" style="text-align:center;">
+	</div>
+
+	<div class="title"><br><p style="font-size:10pt; margin: 0 0 20 140;"><span class='under'>Icon Credits:</span> modified imagery from Andrey Vasiliev, Fuat şanlı, Maria Kislitsina, Arthur Schmitt, Oksana Latysheva at the Noun Project. <br><span class="under">Code Credits:</span> animation by Meg Studer/Siteations Studio using p5.js, webcam.js, gifShot.js, jQuery, and all-the-blobs available in Html5.</p><br></div>
+
+
+
+</body>
+</html>

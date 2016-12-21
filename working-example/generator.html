@@ -1,6 +1,8 @@
 <html>
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   
   <title>Holidot Generator</title>
 
@@ -20,7 +22,9 @@
 	<!-- Configure a few settings and attach camera -->
 
   <!-- this line removes any default padding and style. you might only need one of these values set. -->
-  <link href="https://fonts.googleapis.com/css?family=Josefin+Sans:300|Unica+One" rel="stylesheet"> 
+  <link href="https://fonts.googleapis.com/css?family=Josefin+Sans:300|Unica+One" rel="stylesheet">
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"> 
 
   <style> 
 
@@ -54,24 +58,24 @@
 
   #my_camera { background-color: lightgrey;}
   #title{ overflow: hidden;}
-  #optionButtons{ overflow: hidden;}
+  
   .under {text-decoration-line: underline}
   .main { overflow: hidden ; margin:0 0 20 40;}
-  .spacer { border-bottom-style: solid; border-top-style: dotted; border-width:1px; padding:10 0 10 0; overflow: hidden}
+  .spacer { border-bottom-style: solid; border-top-style: dotted; border-width:1px; padding:10 0 10 0;}
   #results { overflow: hidden; text-align: center; margin:20 0 20 0;}
 	</style>
 </head>
 
 <body>
-
+<div>
 	<div id="title">
 		<h1>Wish others a <span d="greeting" class='hl' style="text-decoration-line: underline;">Happy Holidot</span> <span style="font-size:18pt"> with your festive family portraits & winter imagery... </span></h1>
-		<h3 id="wishes" style="margin: 0 0 20 280">Save & Share Stills and Gifs
+		<h3 id="wishes" style="margin: 0 0 20 22%">Save & Share Stills and Gifs
 		<span style="font-size:12pt; font-family: 'Josefin Sans', sans-serif;"> need ideas? browse <a href="/gif" target="_blank" class="under hl">test gifs here</a> and <a href="https://vimeo.com/196467860" target="_blank" class="under hl">demo walk-thru</a> [optimized for desktop/labtop display]</span> </h3>
 	</div>
 
-	<div class="optionButtons" style="height:225px">
-		<span style="float:left; width:25%;">
+	<div class="row">
+		<div style="display:inline-block;" class="col-xs-6 col-md-3">
 			<h4 class='hl'>1) pick festive icons</h4>
 			<p>same options as in opening animation<p>
 			<form> 
@@ -81,8 +85,8 @@
 				<input type="radio" name="Opt" value="treats" id="ckOpt" onclick="radioClicked();"> holiday treats, <br>
 				<input type="radio" name="Opt" value="mixed" id="mixOpt" onclick="radioClicked();" checked> or mixed icons.
 			</form>
-		</span>
-		<span style="float:left; width:25%;">
+		</div>
+		<div style="display:inline-block;" class="col-xs-6 col-md-3">
 			<h4 class='hl'>2) smile for a holiday snapshot </h4>
 				<div id="my_camera" style="margin:4 0 0 10;"></div>
 					<script language="JavaScript">
@@ -99,8 +103,8 @@
 						Webcam.attach('#my_camera');
 					</script>
 			<p>Have Your Ugly Holiday Jumper On?</p>
-		</span>
-		<span style="float:left; width:25%;">
+		</div>
+		<div style="display:inline-block;" class="col-xs-6 col-md-3">
 			<h3>. . .</h3>
 			<p>use candid captures / stock views / uploads:</p>
 			
@@ -110,49 +114,39 @@
 				<input type="file" value="upload images" class="bm" id="own" onchange="take_upload(this.files[0]);">
 			</form>
 			<p> uploads (1200x600 min)</p>
-		</span>
+		</div>
 
-		<span id="previews" style="float: left; width: 25%;">	
+		<div id="previews" style="display:inline-block;" class="col-xs-6 col-md-3">	
 			<h4 class='hl'>3) preview your still image</h4>
 			<div id="my_preview" style="margin:4 0 0 10;" class="view"></div>
 			<p> Happy? Proceed. If not, try again.</p>	
-		</span>
-		
-	<!--	<span id="saveOpt" style="float: left; width: 25%;">	
-			<h4>3) save and send (share, embed, spam)</h4>
-			<p> for embeds (jpg), copies (png), or animation (gif)</p><br>	
-
-				<form style:"font-size:8pt">
-					<input style="font-family: 'Unica One'; font-size:14pt" type=button value="Save JPG" id="jpg" onclick="saveJPG()"><br>
-					<a href="#hideMe"><input style="font-family: 'Unica One'; font-size:14pt" type=button value="Copy PNG" id="copy2"></a><br>
-					<a href="#gifPlaced"><input style="font-family: 'Unica One'; font-size:14pt" type=button value="Save GIF" id="gif" onclick="gifMake();"></a><br>				
-				</form>
-				<p> save jpg/png during any pause, gif at end</p>
-		</span>-->
-
+		</div>
 	</div>
 
+		<div class="clearfix visible-xs-block"></div>
 
-	<div class="spacer">
 
-		<span style="float:left; width: 25%; text-align:left;">
+
+	<div class="spacer row">
+
+		<div style="display:inline-block;" class="col-xs-6 col-md-3">
 			<h4 class='hl'>4) load/reset and run options </h4>
 			<form> 
 				<input class="bm" type=button id="loader" name=" " value="Load (1,2,3)">
 			</form>	
 			<p> Animation just below. Gif appears at bottom.</p>
-		</span>
+		</div>
 
-		<span style="float:left; width: 25%; text-align:left;">
+		<div style="display:inline-block;" class="col-xs-6 col-md-3">
 			<h4>Opt. 1) pause animation </h4>
 			<form> 
 				<input class="bmin" type=button id="pause" name=" " value="Play or Pause Loop">
 			</form>
 			<p>Pause may lag, beta bugs.</p>	
 
-		</span>
+		</div>
 
-		<span style="float:left; width: 25%; ">
+		<div style="display:inline-block;" class="col-xs-6 col-md-3">
 			<h4>Opt. 2) save jpg or png frames </h4>
 			<form>
 					<input class="bmin" type=button value="Save JPG" id="jpg" onclick="saveJPG()">
@@ -160,15 +154,17 @@
 			</form>
 			<p>Pause animation to contol frame saved.</p>	
 
-		</span>
+		</div>
 
-		<span style="float:left; width: 25%;">
+		<div style="display:inline-block;" class="col-xs-6 col-md-3">
 			<h4 class='hl'>5) save gif (~30 sec render)</h4>
 			<form>
 			<input class="bm" type=button value="Make GIF" id="gif" onclick="gifMake();">
 		</form><p>GifShot.js may throw error, hit 'continue'.<p>
-		</span>
+		</div>
 	</div>
+
+	<div class="clearfix visible-xs-block"></div>
 
 	<div id="results"></div>
 
@@ -185,10 +181,7 @@
 	<div class="gifPlaced" style="text-align:center;">
 	</div>
 
-	<div class="title"><br><p style="font-size:10pt; margin: 0 0 20 140;"><span class='under'>Icon Credits:</span> modified imagery from Andrey Vasiliev, Fuat şanlı, Maria Kislitsina, Arthur Schmitt, Oksana Latysheva at the Noun Project. <br><span class="under">Code Credits:</span> animation by Meg Studer/Siteations Studio using p5.js, webcam.js, gifShot.js, jQuery, and all-the-blobs available in Html5.</p><br></div>
-
-	<div class="hideMe2"></div>
-
+	<div class="title"><br><p style="font-size:10pt; margin: 0 0 20 22%;"><span class='under'>Icon Credits:</span> modified imagery from Andrey Vasiliev, Fuat şanlı, Maria Kislitsina, Arthur Schmitt, Oksana Latysheva at the Noun Project. <br><span class="under">Code Credits:</span> animation by Meg Studer/Siteations Studio using p5.js, webcam.js, gifShot.js, jQuery, and all-the-blobs available in Html5.</p><br></div>
 
 
 </body>

@@ -475,6 +475,7 @@ function preview(newurl){
 
   		newImg.src = url;
   		newImg.style="height:150px;";
+  		$("#my_preview").attr('style','background-color: white;')
 		$("#my_preview").append(newImg);
 
 }

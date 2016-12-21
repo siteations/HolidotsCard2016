@@ -4,6 +4,10 @@ var heigth;
 var img;
 var imgSet=[];
 var imgSetUrl=[];
+var	wRatio;
+var	hRatio;
+var orientation=[1200,600];
+
 
 var cnt;
 var mX;
@@ -32,7 +36,9 @@ var icons;
 var option;
 var grid;//placeholder for user grid selection
 
-var pixSize;
+var pixSize=[];
+var pixS=[];
+var pixR;
 var gridsize;
 var pixCount;
 var endCount=0;
@@ -92,23 +98,39 @@ function setup() {
   		cnt.parent('results');
   		cnt.id('pixelCanvas');
 
-  	pixSize=[];
+  	var pixSize1=[]; //2:1 or 1:2
   	for (var num=0; num<60; num++){
   		if (width%num===0 && 600%num===0){
-  			pixSize.push(num);
+  			pixSize1.push(num);
   		}
   	}
+
+  	var pixSize2=[]; //4:3 or 3:4
+  	for (var num=0; num<60; num++){
+  		if (1200%num===0 && 900%num===0){
+  			pixSize2.push(num);
+  		}
+  	}
+
   	
-  	pixSize=pixSize.slice(4);
+  	pixSize1=pixSize1.slice(4);
+  	pixSize2=pixSize2.slice(1);
+
+  	pixS=[pixSize1,pixSize2];
+  	console.log(pixS);
 
   	pixelDensity(1);
   	gridsize=0;
   	pixCount=0;
 
+  	pixSize=pixS[0];
+
 }
 
 
 function draw() {
+
+background(255);
 
 if (!option){option='mixed';};
 
@@ -129,6 +151,7 @@ if (option==='treats'){iconSeries=treatsPng;};
 
 
 loops++;
+console.log(loops);
 
 
 if (holder.length<12){
@@ -136,9 +159,16 @@ if (holder.length<12){
 	grid=pixSize[gridsize];
 	//default image vs. winterSet vs. various uploads/camera grabs....
 	if (!img){img=test;};
+	//if (!wRo){wRo=0; hRo=0; wRatio=1200; hRatio=1200;}
 	//if (!img){img=imgSet[0];};
+	var x=0;
+	if (wRatio){
+		x=(wRatio-orientation[0])/2;
+	};
 
-	image(img, 0, 0); 
+	image(img, x, 0, orientation[0], orientation[1]); 
+
+
   	loadPixels(); 
 
   	underHolder.push(pixels); // underHolder logs background
@@ -314,45 +344,25 @@ if (holder.length<12){
 
 	blobImage(); // save canvas as image for gif-making
 
-		if (gridsize<pixSize.length-1){
+		if (loops===24){
+		
+		gifFrames.shift();
+		gifFrReverse.pop();
+
+
+		gifReady=gifFrames.concat(gifFrReverse);
+
+			noLoop();
+			bool=1;
+
+		} else if (gridsize<pixSize.length-1){
 			gridsize++;
 			//gridsize=floor(random(0,pixSize.length));
 		} else if (gridsize===pixSize.length-1 && pixCount<imgSet.length-1){
 			gridsize=0;
 			pixCount++;
-		} else if (gridsize===pixSize.length-1 && pixCount===imgSet.length-1|| endCount===finalLoop.length){
+		//} else if (gridsize===pixSize.length-1 && pixCount===imgSet.length-1|| endCount===finalLoop.length || loops===26){
 			//reverse copy
-
-		gifReady=gifFrames.concat(gifFrReverse);
-
-		/*document.getElementById("gif").onclick=function() {
-			gifMake();
-		};
-
-		
-			gifshot.createGIF({
-			    gifWidth: 1200,
-			    gifHeight: 600,
-			    images: gifReady,
-			    interval: 0.25,
-			    numFrames: copyCnt
-			}, function (obj) {
-			    if (!obj.error) {
-			        var image = obj.image, animatedImage = document.createElement('img');
-			        animatedImage.src = image;
-			        animatedImage.id = 'gifOutput';
-			        animatedImage.style = "width: 900px; margin-top:20px";
-
-			        //document.body.appendChild(gifImage);
-			        $('.hideMe2').append(animatedImage);
-			    } else {
-			    	console.log(obj.error);
-			    }
-			}); */
-
-
-			noLoop();
-			bool=1;
 
 		};
 
@@ -376,6 +386,7 @@ function take_snapshot() {
 	Webcam.snap(function(data_uri) {
 
 		preview(data_uri);
+		getSize(the_url);
 
 		img = loadImage(data_uri);
 				
@@ -395,6 +406,7 @@ function take_winter() {
 	bool=0;
 
 	preview(imgSetUrl[a]);
+	getSize(imgSetUrl[a]);
 
 };
 
@@ -406,9 +418,12 @@ function take_upload(file){
   // inject an image with the src url
   reader.onload = function(event) {
     the_url = event.target.result;
+    //console.log(loadImage(the_url));
+    var resized=getSize(the_url);
     img = loadImage(the_url);
 
     preview(the_url);
+
     
   };
 
@@ -417,20 +432,49 @@ function take_upload(file){
 
 };
 
+function getSize(newurl){
+
+
+		var newImgS = document.createElement("img"),
+		      url = newurl;
+
+		  newImgS.onload = function() {
+		    // no longer need to read the blob so it's revoked
+		    console.log( this.width+' '+ this.height );
+		  };
+
+  		newImgS.src = url;
+  		newImgS.style= "visibility: hidden; width: 1200px";
+
+  		return newImgS;
+		//$(".hideMe2").append(newImgS);
+
+}
+
+
 function preview(newurl){
+
+	
 
 	$("#my_preview").empty();
 
 		var newImg = document.createElement("img"),
 		      url = newurl;
 
+		var orient=[];
+
 		  newImg.onload = function() {
 		    // no longer need to read the blob so it's revoked
 		    URL.revokeObjectURL(url);
+		    orient=[newImg.width,newImg.height];
+
 		  };
 
+		//150 height is max
+		  
+
   		newImg.src = url;
-  		newImg.style="width:300px; overflow:hidden; ";
+  		newImg.style="height:150px;";
 		$("#my_preview").append(newImg);
 
 }
@@ -500,6 +544,7 @@ function reloading() {
 	gridsize=0;
   	pixCount=0;
   	endCount=0;
+  	loops=0;
   	holder=[];
   	loop();
   	gifFrames=[];
@@ -514,7 +559,68 @@ function reloading() {
   	/*document.getElementById("pause").onclick=function() {
 			playpause();
 		};*/
-	resizeCanvas(width, height);
+if (img.height>img.width){
+
+	//4/3 img.width/img.height = .75
+	//2/1 img.width/img.height = .5
+
+		if ((img.width/img.height)<0.625){
+
+			var wP=wRatio=(1200/img.height)*img.width;
+			if (wRatio!=600){wRatio=600;};
+
+			var hP=hRatio=1200;
+			orientation=[wP,hP];
+
+			pixSize=pixS[0];
+
+		} else {
+
+			var wP=wRatio=(1200/img.height)*img.width;
+			if (wRatio!=900){wRatio=900;};
+
+			var hP=hRatio=1200;
+			orientation=[wP,hP];
+
+			pixSize=pixS[1];
+
+		};
+
+
+	} else {
+
+		if ((img.height/img.width)<0.625){
+
+			var wP=wRatio=1200;
+
+			var hP=hRatio=(1200/img.width)*img.height;
+			if (hRatio!=600){hRatio=600;};
+			console.log (wRatio,hRatio);
+			console.log(wP,hP);
+
+			orientation=[wP,hP];
+
+			pixSize=pixS[0];
+
+		} else {
+
+			var wP=wRatio=1200;
+
+			var hP=hRatio=(1200/img.width)*img.height;
+
+			if (hRatio!=900){hRatio=900;};
+
+			orientation=[wP,hP];
+
+			pixSize=pixS[1];
+		};
+
+
+	};
+
+	
+
+	resizeCanvas(wRatio, hRatio);
 
 };
 
@@ -542,8 +648,8 @@ canvas.toBlob(function(blob) {
 
 function gifMake() {
 			gifshot.createGIF({
-			    gifWidth: 900,
-			    gifHeight: 450,
+			    gifWidth: wRatio*0.75,
+			    gifHeight: hRatio*0.75,
 			    images: gifReady,
 			    interval: 0.1,
 			    numFrames: copyCnt
@@ -552,7 +658,7 @@ function gifMake() {
 			        var image = obj.image, animatedImage = document.createElement('img');
 			        animatedImage.src = image;
 			        animatedImage.id = 'gifOutput';
-			        animatedImage.style = "width: 900px; margin-top:20px";
+			        animatedImage.style = "width:"+wRatio*0.75+"px; margin-top:20px";
 
 			        //document.body.appendChild(gifImage);
 			        $('.gifPlaced').empty();

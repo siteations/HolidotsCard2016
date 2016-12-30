@@ -3,4 +3,4 @@
 
 https://www.siteations.com/holidots2016/generator.html (the fun stuff)
 
-![sample gif](https://github.com/siteations/HolidotsCard2016/working-example/gif/elkMask.gif )
+https://github.com/siteations/HolidotsCard2016/working-example/gif/elkMask.gif
